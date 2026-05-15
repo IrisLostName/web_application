@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Information</title>
+</head>
+<body>
+    <h1>Student Details</h1>
+    <p>ID: <span id="studentId"></span></p>
+    <p>Name: <span id="studentName"></span></p>
+    <p>Email: <span id="studentEmail"></span></p>
+    <script>
+        // 示例：假设从Java后端获取数据，这里用静态��据演示
+        const student = { id: 1, name: "John Doe", email: "john@example.com" };
+        document.getElementById("studentId").textContent = student.id;
+        document.getElementById("studentName").textContent = student.name;
+        document.getElementById("studentEmail").textContent = student.email;
+    </script>
+</body>
+</html>
+
