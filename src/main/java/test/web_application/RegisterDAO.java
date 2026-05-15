@@ -86,6 +86,22 @@ public class RegisterDAO {
     }
 
     /**
+     * 根据 id 删除注册记录
+     */
+    public boolean deleteById(int id) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DatabaseUtil.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM register WHERE id = ?");
+            stmt.setInt(1, id);
+            return stmt.executeUpdate() > 0;
+        } finally {
+            DatabaseUtil.closeResources(null, stmt, conn);
+        }
+    }
+
+    /**
      * 查询所有注册用户(按注册时间倒序)
      */
     public List<Register> findAll() throws SQLException {

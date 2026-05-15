@@ -2,6 +2,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="my.bean.Register" %>
 <%
+    if (request.getAttribute("registerList") == null) {
+        request.getRequestDispatcher("/register").forward(request, response);
+        return;
+    }
     List<Register> registerList = (List<Register>) request.getAttribute("registerList");
     Register register = (Register) request.getAttribute("register");
     if (register == null) {
@@ -119,6 +123,23 @@
             border-bottom: 1px solid #f1f1f1;
         }
         tbody tr:hover { background: #fff5f8; }
+        .icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: #d6336c;
+            text-decoration: none;
+            transition: background .15s, color .15s, transform .15s;
+        }
+        .icon-btn:hover {
+            background: #d6336c;
+            color: #fff;
+            transform: scale(1.05);
+        }
+        .icon-btn svg { width: 16px; height: 16px; fill: currentColor; }
         .empty {
             text-align: center;
             color: #999;
@@ -210,6 +231,7 @@
                     <th>电话</th>
                     <th>地址</th>
                     <th>注册时间</th>
+                    <th style="text-align:center;width:60px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -221,6 +243,16 @@
                         <td><%= r.getPhone() == null ? "" : r.getPhone() %></td>
                         <td><%= r.getAddress() == null ? "" : r.getAddress() %></td>
                         <td><%= r.getCreateTime() == null ? "" : r.getCreateTime() %></td>
+                        <td style="text-align:center;">
+                            <a class="icon-btn"
+                               href="${pageContext.request.contextPath}/register?action=delete&id=<%= r.getId() %>"
+                               title="删除该记录"
+                               onclick="return confirm('确定要删除用户 <%= r.getLogname() %> 吗？');">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M9 3v1H4v2h16V4h-5V3H9zm-3 5l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13H6zm4 2h2v9h-2v-9zm4 0h2v9h-2v-9z"/>
+                                </svg>
+                            </a>
+                        </td>
                     </tr>
                 <% } %>
                 </tbody>

@@ -33,7 +33,27 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if ("delete".equals(action)) {
+            handleDelete(request, response);
+            return;
+        }
         loadAndForward(request, response);
+    }
+
+    private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String idParam = request.getParameter("id");
+        try {
+            int id = Integer.parseInt(idParam);
+            boolean ok = dao.deleteById(id);
+            String flash = ok ? "deleted" : "notfound";
+            response.sendRedirect(request.getContextPath() + "/register?msg=" + flash);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/register?msg=badid");
+        } catch (SQLException e) {
+            log("删除注册记录失败", e);
+            response.sendRedirect(request.getContextPath() + "/register?msg=dberr");
+        }
     }
 
     @Override
@@ -74,7 +94,39 @@ public class RegisterServlet extends HttpServlet {
         if (request.getAttribute("register") == null) {
             request.setAttribute("register", new Register());
         }
+        applyFlashMessage(request);
         loadListAndForward(request, response);
+    }
+
+    private void applyFlashMessage(HttpServletRequest request) {
+        String msg = request.getParameter("msg");
+        if (msg == null) return;
+        switch (msg) {
+            case "deleted":
+                request.setAttribute("successMsg", "已删除该注册记录。");
+                break;
+            case "notfound":
+                addError(request, "记录不存在或已被删除。");
+                break;
+            case "badid":
+                addError(request, "无效的记录 ID。");
+                break;
+            case "dberr":
+                addError(request, "删除失败：数据库错误。");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void addError(HttpServletRequest request, String msg) {
+        @SuppressWarnings("unchecked")
+        List<String> errors = (List<String>) request.getAttribute("errors");
+        if (errors == null) {
+            errors = new ArrayList<>();
+            request.setAttribute("errors", errors);
+        }
+        errors.add(msg);
     }
 
     private void loadListAndForward(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
