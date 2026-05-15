@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/User.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/User.java" />
+              <option name="updatedContent" value="public class User {&#10;    private int id;&#10;    private String name;&#10;    private String email;&#10;&#10;    public int getId() {&#10;        return id;&#10;    }&#10;&#10;    public void setId(int id) {&#10;        this.id = id;&#10;    }&#10;&#10;    public String getName() {&#10;        return name;&#10;    }&#10;&#10;    public void setName(String name) {&#10;        this.name = name;&#10;    }&#10;&#10;    public String getEmail() {&#10;        return email;&#10;    }&#10;&#10;    public void setEmail(String email) {&#10;        this.email = email;&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
